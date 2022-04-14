@@ -7628,8 +7628,11 @@ static void *stbi__qoi_load(stbi__context *s, int *x, int *y, int *comp, int req
       }
       else {
          int run = tag & 0x3f;
-         if (&dst[run * s->img_n] > end)
+         if (&dst[run * s->img_n] > end) {
+            while (dst < end)
+               *dst++ = 0;
             break;
+         }
 
          if (s->img_n == 3) {
             int i;
